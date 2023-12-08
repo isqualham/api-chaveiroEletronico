@@ -1,0 +1,364 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "documentação",
+        "description": "Documentação Api Academia",
+        "version": "1.0.0",
+        "contact": {
+            "email": "williamfacme@gmail.com"
+        }
+    },
+    "paths": {
+        "/auth": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "sumary": "authenticação",
+                "description": "authenticação do usuário",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "teste@gmail.com",
+                                    "password": "1302@casa"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "token gerado"
+                    },
+                    "400": {
+                        "description": "Usuário ou email não existe"
+                    }
+                }
+            }
+        },
+        "/auth/refresh-token": {
+            "post": {
+                "tags": [
+                    "Refresh Token"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "sumary": "Gera novo token",
+                "description": "Gera um novo token apartir do token da authenticação",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21lIjoid2lsbGlhbSBkZSBmcmVpdGFzIiwiZW1haWwiOiJ0ZXN0ZUBnbWFpbC5jb20iLCJpYXQiOjE2NzQwMDQ0MTAsImV4cCI6MTY3NDA5MDgxMCwic3ViIjoiMSJ9.00cMj9GBHwKum1Rbq6XmsvbnTzea4GrFbWoRwd6IK-4"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "token gerado"
+                    },
+                    "400": {
+                        "description": "Usuário ou email não existe"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "sumary": "criação de user",
+                "description": "cria novo user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "william de freitas",
+                                    "password": "1302@casa",
+                                    "email": "teste@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado com sucesso"
+                    },
+                    "500": {
+                        "description": "Usuário Existente"
+                    },
+                    "400": {
+                        "description": "message: \"name\" is required",
+                        "error": "não foi possível criar o usuário"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "sumary": "retorna todos os usuários",
+                "description": "retorna todos os usuário",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todos os usuários e se não tiver retorna array vazio"
+                    },
+                    "400": {
+                        "description": "Erro em pesquisar todos os usuários"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "required": true
+                }
+            ],
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "sumary": "Exibe um usuário",
+                "description": "Exibe um usuário",
+                "responses": {
+                    "200": {
+                        "description": "Exibe um usuário e se não tiver retorna array vazio"
+                    },
+                    "400": {
+                        "description": "Erro em pesquisar o usuário"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "sumary": "Atualizacão de campos do user",
+                "description": "Atualização de campos do user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "cpf": {
+                                        "type": "string"
+                                    },
+                                    "cell_phone": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "birth_date": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "william de freitas",
+                                    "cpf": "02243691139",
+                                    "cell_phone": "65999117229",
+                                    "email": "teste@gmail.com",
+                                    "birth_date": "1990/02/13"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário atualizado com sucesso"
+                    },
+                    "400": {
+                        "description": "Usuário não existe"
+                    }
+                }
+            }
+        },
+        "/user/avatar": {
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "sumary": "Exibe um usuário",
+                "description": "Exibe um usuário",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data:": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "encoding": {
+                                    "avatar": {
+                                        "contentType": [
+                                            "image/png",
+                                            "image/jpeg"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Atualização do avatar com sucesso"
+                    }
+                }
+            }
+        },
+        "/user/password-temporary": {
+            "post": {
+                "tags": [
+                    "generate token to change password"
+                ],
+                "sumary": "generate token to change password",
+                "description": "generate token to change password",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "teste@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "sucesso ao gera token para mudar de password"
+                    },
+                    "500": {
+                        "description": "error server"
+                    }
+                }
+            }
+        },
+        "/user/reset-password": {
+            "post": {
+                "tags": [
+                    "reset password"
+                ],
+                "sumary": "reset password",
+                "description": "reset password",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "token": "9d73baeb-76c0-48cb-930d-52c31b46ad19",
+                                    "password": "12345"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "sucesso em resetar a password"
+                    },
+                    "500": {
+                        "description": "error server"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

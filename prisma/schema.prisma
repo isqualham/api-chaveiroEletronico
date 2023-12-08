@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id              Int              @id @default(autoincrement())
+  name            String
+  registration    String           @unique
+  password        String     
+  created_At      DateTime         @default(now())
+  admin           Boolean?
+  UserTokens      UsersTokens[]
+  BorrowedKey     BorrowedKeys[]
+
+  @@map("users")
+}
+
+model UsersTokens {
+  id               Int      @id @default(autoincrement())
+  token            String
+  expiration_date  DateTime
+  user             Users @relation(fields: [user_id], references: [id])
+  user_id          Int
+  created_At       DateTime @default(now())
+
+  @@map("users_tokens")
+}
+
+model BorrowedKeys {
+  id              Int              @id @default(autoincrement())
+  cod_key         Int              @unique
+  registration    String           @unique  
+  created_At      DateTime         @default(now())
+  update_At       DateTime?         
+  user             Users @relation(fields: [user_id], references: [id])
+  user_id          Int       
+  
+  @@map("borrowed_key")
+}

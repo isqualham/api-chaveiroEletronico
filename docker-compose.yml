@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  # dataBase:
+  #   image: postgres
+  #   container_name: db-power-gym
+  #   restart: always
+  #   volumes:
+  #     - pgdata:/data/postgres
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     - POSTGRES_USER=freitas
+  #     - POSTGRES_PASSWORD=12345678
+  #     - POSTGRES_DB=academia
+  app:
+    build: .
+    container_name: api-power-gym
+    restart: always
+    ports:
+      - 3333:3333
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    # links:
+    #   - dataBase
+    # depends_on:
+    #   - dataBase
+
+volumes:
+  pgdata:
+    driver: local
